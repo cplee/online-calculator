@@ -36,7 +36,7 @@ public class OnlineCalculatorControllerTest {
 		this.mvc
 		.perform(post("/calculation").content("0 + 0"))
 		.andExpect(status().isOk())
-		.andExpect(content().string("0.0"));
+		.andExpect(content().string("0"));
 	}
 	
 	@Test
@@ -44,7 +44,7 @@ public class OnlineCalculatorControllerTest {
 		this.mvc
 		.perform(post("/calculation").content("3 - 2"))
 		.andExpect(status().isOk())
-		.andExpect(content().string("1.0"));
+		.andExpect(content().string("1"));
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class OnlineCalculatorControllerTest {
 		this.mvc
 		.perform(post("/calculation").content("2 * 4"))
 		.andExpect(status().isOk())
-		.andExpect(content().string("8.0"));
+		.andExpect(content().string("8"));
 	}
 	
 	@Test
@@ -60,7 +60,7 @@ public class OnlineCalculatorControllerTest {
 		this.mvc
 		.perform(post("/calculation").content("9 / 3"))
 		.andExpect(status().isOk())
-		.andExpect(content().string("3.0"));
+		.andExpect(content().string("3"));
 	}
 
 	@Test
@@ -76,7 +76,23 @@ public class OnlineCalculatorControllerTest {
 		this.mvc
 		.perform(post("/calculation").content("3 + 5 - 2 * 4 / 8"))
 		.andExpect(status().isOk())
-		.andExpect(content().string("3.0"));
+		.andExpect(content().string("3"));
+	}
+	
+	@Test
+	public void testDoubleCalculationWithoutRounding() throws Exception {
+		this.mvc
+		.perform(post("/calculation").param("scale", "2").content("9.5 / 2"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("4.75"));
+	}
+	
+	@Test
+	public void testDoubleCalculationWithRounding() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("9.5 / 2"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("5"));
 	}
 
 }

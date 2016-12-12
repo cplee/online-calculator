@@ -1,32 +1,36 @@
 package com.example.controller;
 
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class OnlineCalculatorController {
 
     @RequestMapping(value = "calculation", method = RequestMethod.POST)
-    public ResponseEntity<Number> evaluate(@RequestBody String input) {
+    public ResponseEntity<String> evaluate(@RequestParam(defaultValue="0") int scale, @RequestBody String input) {
     	// Parse input string
         String regex = "(?<=op)|(?=op)".replace("op", "[-+*/]");
-        String[] inputParts = input.replaceAll("\\s", "").split(regex);
+        String[] inputParts = input.split(regex);
         
         // Validate parts of input
         if(inputParts.length % 2 == 0) {
-        	return ResponseEntity.badRequest().body(Double.NaN);
+        	return ResponseEntity.badRequest().body("");
         }
         
-        // Validate first value
+        // first value
         double result;
         try {
         	result = Double.parseDouble(inputParts[0]);
         } catch (NumberFormatException ex) {
-        	return ResponseEntity.badRequest().body(Double.NaN);
+        	return ResponseEntity.badRequest().body("");
         }
     	
     	// Perform calculation
@@ -36,7 +40,7 @@ public class OnlineCalculatorController {
     		try {
     			operand = Double.parseDouble(inputParts[++i]);
 	        } catch (NumberFormatException ex) {
-	        	return ResponseEntity.badRequest().body(Double.NaN);
+	        	return ResponseEntity.badRequest().body("");
 	        }
     		
     		if("+".equals(operator)) {
@@ -47,13 +51,14 @@ public class OnlineCalculatorController {
     			result *= operand;
     		} else if("/".equals(operator)) {
     			if(operand == 0) {
-    				return ResponseEntity.badRequest().body(Double.NaN);
+    				return ResponseEntity.badRequest().body("");
     			}
     			result /= operand;
     		}
     	}
     	
-    	// return result
-    	return ResponseEntity.ok(result);
+		// return result
+    	RoundingMode roundingMode = RoundingMode.HALF_UP;
+    	return ResponseEntity.ok( BigDecimal.valueOf(result).setScale(scale, roundingMode).toString() );
     }
 }
