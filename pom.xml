@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.example</groupId>
-	<artifactId>online-calculator</artifactId>
+	<artifactId>online-calculator-low-cohesion</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>online-calculator</name>
+	<name>online-calculator-low-cohesion</name>
 	<description>Online Calculator</description>
 
 	<parent>
