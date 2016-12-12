@@ -22,8 +22,12 @@ public class OnlineCalculatorControllerTest {
 	@MockBean
 	ResponseFormatter formatter;
 	
+	@MockBean
+	CalculatorService calculator;
+	
 	@Test
 	public void testComputeSimpleAddition() throws Exception {
+		Mockito.when(calculator.calculate("0 + 0")).thenReturn(0);
 		Mockito.when(formatter.format(0)).thenReturn("0");
 		
 		this.mvc
@@ -31,4 +35,5 @@ public class OnlineCalculatorControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(content().string("0"));
 	}
+	
 }

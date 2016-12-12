@@ -9,13 +9,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class OnlineCalculatorController {
-
+	
 	@Autowired
 	private ResponseFormatter responseFormatter;
+	
+	@Autowired
+	private CalculatorService calculatorService;
 
 	@RequestMapping(value = "calculation", method = RequestMethod.POST)
 	  public ResponseEntity<String> evaluate(@RequestBody String input) {
-		String response = responseFormatter.format(0);
+		// calculate result
+		int result = calculatorService.calculate(input);
+		
+		// format response
+		String response = responseFormatter.format(result);
+		
 	    return ResponseEntity.ok(response);
 	  }
 }
