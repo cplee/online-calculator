@@ -16,7 +16,7 @@ public class CalculatorServiceTest {
 
 	@Test
 	public void testSimpleAddition() {
-		int result = calculatorService.calculate("0 + 0");
+		int result = calculatorService.calculate();
 		Assert.assertThat(result, Matchers.is(0));
 	}
 

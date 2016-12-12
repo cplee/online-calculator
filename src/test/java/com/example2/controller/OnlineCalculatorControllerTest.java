@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -25,15 +26,28 @@ public class OnlineCalculatorControllerTest {
 	@MockBean
 	CalculatorService calculator;
 	
+	@MockBean
+	ArithmaticParser parser;
+	
+	@Before
+	public void setup() {
+		Mockito.when(parser.parse(Mockito.any())).thenReturn(null);
+		Mockito.when(calculator.calculate(Mockito.any())).thenReturn(0);
+		Mockito.when(formatter.format(0)).thenReturn("0");
+	}
+	
 	@Test
 	public void testComputeSimpleAddition() throws Exception {
-		Mockito.when(calculator.calculate("0 + 0")).thenReturn(0);
-		Mockito.when(formatter.format(0)).thenReturn("0");
-		
 		this.mvc
 		.perform(post("/calculation").content("0 + 0"))
 		.andExpect(status().isOk())
 		.andExpect(content().string("0"));
 	}
 	
+	@Test
+	public void testRequireInput() throws Exception {
+		this.mvc
+		.perform(post("/calculation"))
+		.andExpect(status().isBadRequest());
+	}
 }
