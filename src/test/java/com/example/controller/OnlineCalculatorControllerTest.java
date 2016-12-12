@@ -18,21 +18,21 @@ public class OnlineCalculatorControllerTest {
 	private MockMvc mvc;
 
 	@Test
-	public void testServiceRequiresBody() throws Exception {
+	public void testParseRequiresBody() throws Exception {
 		this.mvc
 		.perform(post("/calculation"))
 		.andExpect(status().isBadRequest());
 	}
 	
 	@Test
-	public void testServiceRequiresValidInput() throws Exception {
+	public void testParseRequiresValidInput() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("1 + "))
 		.andExpect(status().isBadRequest());
 	}
 	
 	@Test
-	public void testSimpleAddition() throws Exception {
+	public void testComputeSimpleAddition() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("0 + 0"))
 		.andExpect(status().isOk())
@@ -40,7 +40,7 @@ public class OnlineCalculatorControllerTest {
 	}
 	
 	@Test
-	public void testSimpleSubtraction() throws Exception {
+	public void testComputeSimpleSubtraction() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("3 - 2"))
 		.andExpect(status().isOk())
@@ -48,7 +48,7 @@ public class OnlineCalculatorControllerTest {
 	}
 	
 	@Test
-	public void testSimpleMultiplication() throws Exception {
+	public void testComputeSimpleMultiplication() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("2 * 4"))
 		.andExpect(status().isOk())
@@ -56,7 +56,7 @@ public class OnlineCalculatorControllerTest {
 	}
 	
 	@Test
-	public void testSimpleDivision() throws Exception {
+	public void testComputeSimpleDivision() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("9 / 3"))
 		.andExpect(status().isOk())
@@ -64,7 +64,7 @@ public class OnlineCalculatorControllerTest {
 	}
 
 	@Test
-	public void testDivideByZero() throws Exception {
+	public void testComputeDivideByZero() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("9 / 0"))
 		.andExpect(status().isBadRequest());
@@ -72,7 +72,7 @@ public class OnlineCalculatorControllerTest {
 	
 
 	@Test
-	public void testComplexCalculation() throws Exception {
+	public void testComputeComplexCalculation() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("3 + 5 - 2 * 4 / 8"))
 		.andExpect(status().isOk())
@@ -80,7 +80,7 @@ public class OnlineCalculatorControllerTest {
 	}
 	
 	@Test
-	public void testDoubleCalculationWithoutRounding() throws Exception {
+	public void testRespondWithRoundingScale2() throws Exception {
 		this.mvc
 		.perform(post("/calculation").param("scale", "2").content("9.5 / 2"))
 		.andExpect(status().isOk())
@@ -88,7 +88,7 @@ public class OnlineCalculatorControllerTest {
 	}
 	
 	@Test
-	public void testDoubleCalculationWithRounding() throws Exception {
+	public void testRespondWithRoundingDefaultScale() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("9.5 / 2"))
 		.andExpect(status().isOk())
