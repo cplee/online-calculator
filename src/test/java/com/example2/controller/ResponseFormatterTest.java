@@ -16,7 +16,19 @@ public class ResponseFormatterTest {
 	@Test
 	public void testSimpleFormat() {
 		String response = formatter.format(0);
-		Assert.assertThat(response, Matchers.is("0"));
+		Assert.assertThat(response, Matchers.is("0.0"));
+	}
+	
+	@Test
+	public void testSimpleNonzeroFormat() {
+		String response = formatter.format(2);
+		Assert.assertThat(response, Matchers.is("2.0"));
+	}
+	
+	@Test
+	public void testDoubleFormat() {
+		String response = formatter.format(2.3);
+		Assert.assertThat(response, Matchers.is("2.3"));
 	}
 
 }

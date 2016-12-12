@@ -2,8 +2,8 @@ package com.example2.controller;
 
 public class ResponseFormatter {
 
-	public String format(int i) {
-		return "0";
+	public String format(double d) {
+		return Double.toString(d);
 	}
 
 }
