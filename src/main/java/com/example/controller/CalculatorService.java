@@ -1,8 +1,11 @@
 package com.example.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class CalculatorService {
 
-	public double calculate(String input) {
+	public String calculate(String input, int scale) {
 		// Parse input string
 		String regex = "(?<=op)|(?=op)".replace("op", "[-+*/^]");
 		String[] inputParts = input.split(regex);
@@ -49,7 +52,10 @@ public class CalculatorService {
 		}
 		
 		// return result
-		return result;
+		RoundingMode roundingMode = RoundingMode.HALF_UP;
+		BigDecimal scaledResult = BigDecimal.valueOf(result).setScale(scale, roundingMode);
+		
+		return scaledResult.toString();
 
 	}
 }
