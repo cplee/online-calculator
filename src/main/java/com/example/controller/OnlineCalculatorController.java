@@ -21,6 +21,8 @@ public class OnlineCalculatorController {
 			@RequestBody String input) {
 		
 		double result = calculatorService.calculate(input);
-		return ResponseEntity.ok(BigDecimal.valueOf(result).setScale(scale, roundingMode).toString());
+		BigDecimal scaledResult = BigDecimal.valueOf(result).setScale(scale, roundingMode);
+		
+		return ResponseEntity.ok(scaledResult.toString());
 	}
 }
