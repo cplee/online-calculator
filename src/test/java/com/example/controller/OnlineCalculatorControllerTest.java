@@ -1,8 +1,10 @@
 package com.example.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +95,15 @@ public class OnlineCalculatorControllerTest {
 		.perform(post("/calculation").content("9.5 / 2"))
 		.andExpect(status().isOk())
 		.andExpect(content().string("5"));
+	}
+	
+	@Test
+	@Ignore
+	public void testComputePowerIrrational() throws Exception {
+		this.mvc
+		.perform(post("/calculation").param("scale","30").content("2 ^ .5"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("1.414213562373095048801688724209"));
 	}
 
 }

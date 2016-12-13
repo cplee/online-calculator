@@ -18,7 +18,7 @@ public class OnlineCalculatorController {
 			@RequestParam(defaultValue = "0") int scale, 
 			@RequestBody String input) {
 		// Parse input string
-		String regex = "(?<=op)|(?=op)".replace("op", "[-+*/]");
+		String regex = "(?<=op)|(?=op)".replace("op", "[-+*/^]");
 		String[] inputParts = input.split(regex);
 
 		// Validate parts of input
@@ -55,6 +55,10 @@ public class OnlineCalculatorController {
 					return ResponseEntity.badRequest().body("");
 				}
 				result /= operand;
+			} else if ("^".equals(operator)) {
+				result = Math.pow(result, operand);
+			} else {
+				return ResponseEntity.badRequest().body("");
 			}
 		}
 
