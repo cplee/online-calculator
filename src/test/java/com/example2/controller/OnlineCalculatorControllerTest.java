@@ -32,7 +32,7 @@ public class OnlineCalculatorControllerTest {
 	@Before
 	public void setup() {
 		Mockito.when(parser.parse(Mockito.any())).thenReturn(null);
-		Mockito.when(calculator.calculate(Mockito.any())).thenReturn(0);
+		Mockito.when(calculator.calculate(Mockito.any())).thenReturn(0.0);
 		Mockito.when(formatter.format(0)).thenReturn("0");
 	}
 	

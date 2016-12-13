@@ -25,7 +25,7 @@ public class OnlineCalculatorController {
 		Operation[] operations = arithmaticParser.parse(input);
 
 		// calculate result
-		int result = calculatorService.calculate(operations);
+		double result = calculatorService.calculate(operations);
 
 		// format response
 		String response = responseFormatter.format(result);
