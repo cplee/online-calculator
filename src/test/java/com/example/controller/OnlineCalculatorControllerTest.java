@@ -20,7 +20,77 @@ public class OnlineCalculatorControllerTest {
 	private MockMvc mvc;
 
 	@Test
-	public void testComputeAddition() throws Exception {
+	public void testParseRequiresBody() throws Exception {
+		this.mvc
+		.perform(post("/calculation"))
+		.andExpect(status().isBadRequest());
+	}
+	
+	@Test
+	public void testParseRequiresValidInput() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("1 + "))
+		.andExpect(status().isBadRequest());
+	}
+	
+	@Test
+	public void testComputeSimpleAddition() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("0 + 0"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("0"));
+	}
+	
+	@Test
+	public void testComputeSimpleSubtraction() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("3 - 2"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("1"));
+	}
+	
+	@Test
+	public void testComputeSimpleMultiplication() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("2 * 4"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("8"));
+	}
+	
+	@Test
+	public void testComputeSimpleDivision() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("9 / 3"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("3"));
+	}
+
+	@Test
+	public void testComputeDivideByZero() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("9 / 0"))
+		.andExpect(status().isBadRequest());
+	}
+	
+
+	@Test
+	public void testComputeComplexCalculation() throws Exception {
+		this.mvc
+		.perform(post("/calculation").content("3 + 5 - 2 * 4 / 8"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("3"));
+	}
+	
+	@Test
+	public void testRespondWithRoundingScale2() throws Exception {
+		this.mvc
+		.perform(post("/calculation").param("scale", "2").content("9.5 / 2"))
+		.andExpect(status().isOk())
+		.andExpect(content().string("4.75"));
+	}
+	
+	@Test
+	public void testRespondWithRoundingDefaultScale() throws Exception {
 		this.mvc
 		.perform(post("/calculation").content("2 + 2"))
 		.andExpect(status().isOk())

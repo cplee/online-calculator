@@ -20,9 +20,13 @@ public class OnlineCalculatorController {
 			@RequestParam(defaultValue = "0") int scale, 
 			@RequestBody String input) {
 		
-		double result = calculatorService.calculate(input);
-		BigDecimal scaledResult = BigDecimal.valueOf(result).setScale(scale, roundingMode);
+		try {
+			double result = calculatorService.calculate(input);
+			BigDecimal scaledResult = BigDecimal.valueOf(result).setScale(scale, roundingMode);
+			return ResponseEntity.ok(scaledResult.toString());
+		} catch (Exception ex) {
+			return ResponseEntity.badRequest().body("");
+		}
 		
-		return ResponseEntity.ok(scaledResult.toString());
 	}
 }
