@@ -13,5 +13,16 @@ public class OperatorTest {
 		Assert.assertThat(op.apply(5), Matchers.is(15.0));
 		Assert.assertThat(op.apply(-5), Matchers.is(5.0));
 	}
+	
+	@Test
+	public void testValueOfOperand() {
+		Operator o = Operator.valueOfOperator("+");
+		Assert.assertThat(o,Matchers.is(Operator.Addition));
+	}
+
+	@Test(expected=IllegalArgumentException.class)
+	public void testValueOfInvalidOperand() {
+		Operator o = Operator.valueOfOperator("?");
+	}
 
 }
