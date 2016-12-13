@@ -4,10 +4,10 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class OperationAdditionTest {
+public class OperatorTest {
 	@Test
-	public void testSimple() {
-		OperationAddition op = new OperationAddition(10);
+	public void testAddition() {
+		Operation op = Operator.Addition.operation(10.0);
 		
 		Assert.assertThat(op.apply(0), Matchers.is(10.0));
 		Assert.assertThat(op.apply(5), Matchers.is(15.0));

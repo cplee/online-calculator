@@ -22,13 +22,13 @@ public class CalculatorServiceTest {
 	
 	@Test
 	public void testSingleOperation() {
-		double result = calculatorService.calculate(new OperationAddition(5.0));
+		double result = calculatorService.calculate(Operator.Addition.operation(5.0));
 		Assert.assertThat(result, Matchers.is(5.0));
 	}
 	
 	@Test
 	public void testMultipleOperation() {
-		double result = calculatorService.calculate(new OperationAddition(5.0), new OperationAddition(6.5));
+		double result = calculatorService.calculate(Operator.Addition.operation(5.0), Operator.Addition.operation(6.5));
 		Assert.assertThat(result, Matchers.is(11.5));
 	}
 
